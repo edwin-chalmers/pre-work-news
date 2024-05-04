@@ -1,9 +1,6 @@
-import { StyledLandingPage } from "./LandingPage.styled";
-import ArticlePreview from "../ArticlePreview/ArticlePreview";
-import { fakeNews } from "../../dummy-data"
-import { fetchData } from "../../apiCalls";
-import { useState, useEffect } from "react";
-import userEvent from "@testing-library/user-event";
+import { StyledLandingPage } from "./LandingPage.styled"
+import ArticlePreview from "../ArticlePreview/ArticlePreview"
+import { useState, useEffect } from "react"
 
 export default function LandingPage({ news }) {
     const [articles, setArticles] = useState([])
@@ -13,25 +10,20 @@ export default function LandingPage({ news }) {
         return str.replace(/\s/g, '')
     }
 
-    // useEffect(() => {
-    //     fetchData()
-    //     .then(data => {
-    //         console.log("🚀 ~ useEffect ~ data:", data)
-    //         const articlePreviews = data.articles.map(article => {
-    //             return <ArticlePreview key={removeSpaces(article.title)} article={article} removeSpaces={removeSpaces}/>
-    //         });
-    //         setArticles(articlePreviews)
-    //     })
-    // }, [])
     useEffect(() => {
-        const articlePreviews = news.map(article => {
-            return <ArticlePreview key={removeSpaces(article.title)} article={article} removeSpaces={removeSpaces}/>
-        });
-        setArticles(articlePreviews)
-    }, [])
+        const filteredArticles = news.filter(article =>
+            removeSpaces(article.title.toLowerCase()).includes(removeSpaces(inputValue.toLowerCase()))
+        )
+
+        const articlePreviews = filteredArticles.map(article => (
+            <ArticlePreview key={removeSpaces(article.title)} article={article} removeSpaces={removeSpaces}/>
+        ))
+
+        setArticles(articlePreviews);
+    }, [news, inputValue])
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+        setInputValue(event.target.value)
     }
 
     return (
@@ -48,5 +40,4 @@ export default function LandingPage({ news }) {
             {articles}
         </StyledLandingPage>
     )
-
 }

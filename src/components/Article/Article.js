@@ -1,12 +1,28 @@
 import { StyledArticle } from "./Article.styled"
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-
-// source?
+import { useEffect, useState } from 'react'
 
 export default function Article({ news, removeSpaces }) {
     const { articleId } = useParams()
-    const article = news.find(article => removeSpaces(article.title) === articleId)
+    const [article, setArticle] = useState(null)
+
+    useEffect(() => {
+        const storedArticle = localStorage.getItem(articleId)
+        if (storedArticle) {
+            setArticle(JSON.parse(storedArticle))
+        } else {
+            const foundArticle = news.find(article => removeSpaces(article.title) === articleId)
+            if (foundArticle) {
+                localStorage.setItem(articleId, JSON.stringify(foundArticle))
+                setArticle(foundArticle);
+            }
+        }
+    }, [articleId, news, removeSpaces])
+
+    if (!article) {
+        return <div>Loading...</div>
+    }
 
     return (
         <StyledArticle >
@@ -25,5 +41,4 @@ export default function Article({ news, removeSpaces }) {
                 </div>
         </StyledArticle>
     )
-
 }

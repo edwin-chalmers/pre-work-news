@@ -14,8 +14,7 @@ export default function App() {
   useEffect(() => {
     fetchData()
     .then(data => {
-      console.log("🚀 ~ useEffect ~ data:", data.artciles)
-      setNews(data.artciles)
+      setNews(data.articles)
     })
   }, [])
 
