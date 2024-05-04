@@ -53,6 +53,7 @@ export const StyledArticle = styled.div`
         h1 {
             font-size: 60px;
             margin: 0;
+            
         }
 
         p {

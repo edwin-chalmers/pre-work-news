@@ -1,13 +1,12 @@
-import { StyledArticle } from "./Article.styled";
+import { StyledArticle } from "./Article.styled"
 import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-import { fakeNews } from "../../dummy-data"; 
+// source?
 
-// A “detailed” view for each article (headline, image, date, content, source) 
-
-export default function Article() {
-
-    const article = fakeNews.articles[0]
+export default function Article({ news, removeSpaces }) {
+    const { articleId } = useParams()
+    const article = news.find(article => removeSpaces(article.title) === articleId)
 
     return (
         <StyledArticle >

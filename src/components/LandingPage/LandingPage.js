@@ -1,19 +1,32 @@
 import { StyledLandingPage } from "./LandingPage.styled";
-
 import ArticlePreview from "../ArticlePreview/ArticlePreview";
-
-import { fakeNews } from "../../dummy-data"; 
+import { fakeNews } from "../../dummy-data"
+import { fetchData } from "../../apiCalls";
 import { useState, useEffect } from "react";
+import userEvent from "@testing-library/user-event";
 
-export default function LandingPage() {
+export default function LandingPage({ news }) {
     const [articles, setArticles] = useState([])
     const [inputValue, setInputValue] = useState('')
 
-    useEffect(() => {
-        const articlePreviews = fakeNews.articles.map(article => {
-            return <ArticlePreview key={article.url} article={article} />
-        });
+    function removeSpaces(str) {
+        return str.replace(/\s/g, '')
+    }
 
+    // useEffect(() => {
+    //     fetchData()
+    //     .then(data => {
+    //         console.log("🚀 ~ useEffect ~ data:", data)
+    //         const articlePreviews = data.articles.map(article => {
+    //             return <ArticlePreview key={removeSpaces(article.title)} article={article} removeSpaces={removeSpaces}/>
+    //         });
+    //         setArticles(articlePreviews)
+    //     })
+    // }, [])
+    useEffect(() => {
+        const articlePreviews = news.map(article => {
+            return <ArticlePreview key={removeSpaces(article.title)} article={article} removeSpaces={removeSpaces}/>
+        });
         setArticles(articlePreviews)
     }, [])
 

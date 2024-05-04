@@ -1,7 +1,7 @@
 import { StyledArticlePreview } from "./ArticlePreview.styled"
 import { NavLink } from 'react-router-dom'
 
-export default function ArticlePreview({ article }) {
+export default function ArticlePreview({ article, removeSpaces }) {
 
     return (
         <StyledArticlePreview>
@@ -11,7 +11,7 @@ export default function ArticlePreview({ article }) {
                 <p>{article.description}</p>
                 <div className="time-readmore">
                     <p>{article.publishedAt}</p>
-                    <NavLink id="link" to={`/${article.publishedAt}`}>
+                    <NavLink id="link" to={`/${removeSpaces(article.title)}`}>
                         <button>READMORE...</button>
                     </NavLink>
                 </div>
